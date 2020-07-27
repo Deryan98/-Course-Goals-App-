@@ -6,7 +6,14 @@
  * @flow strict-local
  */
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Button,
+  ScrollView,
+} from 'react-native';
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState('');
@@ -34,7 +41,7 @@ export default function App() {
         <Button title="ADD" onPress={addGoalHandler} />
       </View>
 
-      <View>
+      <ScrollView>
         {/* You can now map data into an array of components */}
         {courseGoals.map((goal) => (
           //you need stricly a unique key, but in this case we'll asume is unique,
@@ -43,7 +50,7 @@ export default function App() {
             <Text> {goal} </Text>
           </View>
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 }
