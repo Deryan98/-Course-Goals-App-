@@ -5,43 +5,60 @@
  * @format
  * @flow strict-local
  */
-import React from 'react';
-import {StyleSheet, View, TextInput, Button} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
 export default function App() {
+  const [enteredGoal, setEnteredGoal] = useState('');
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  const goalInputHandler = (enteredText) => {
+    setEnteredGoal(enteredText);
+  };
+
+  const addGoalHandler = () => {
+    //we need that instead of putting the raw array, it gets returned by a function
+    //so that we can have the guarantee that is the current value
+    setCourseGoals((currentGoals) => [...courseGoals, enteredGoal]); //[...<array>] the spread operator works when we have this context.
+  };
+
   return (
-    <View style={{paddingTop: 50}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'stretch',
-        }}>
+    <View style={styles.screen}>
+      <View style={styles.inputContainer}>
         <TextInput
-          placeholder="1"
-          style={{
-            flex: 1,
-            borderColor: 'black',
-            borderWidth: 1,
-          }}
+          placeholder="Course Goal"
+          style={styles.input}
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
         />
-        <TextInput
-          placeholder="2"
-          style={{
-            flex: 1,
-            borderColor: 'black',
-            borderWidth: 1,
-          }}
-        />
-        <TextInput
-          placeholder="3"
-          style={{
-            flex: 2,
-            borderColor: 'black',
-            borderWidth: 1,
-          }}
-        />
+        <Button title="ADD" onPress={addGoalHandler} />
       </View>
-      <View></View>
+
+      <View>
+        {/* You can now map data into an array of components */}
+        {courseGoals.map((goal) => (
+          //you need stricly a unique key, but in this case we'll asume is unique,
+          //that means we're going to have errors in console.
+          <Text key={goal}> {goal} </Text>
+        ))}
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  screen: {
+    padding: 50,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  input: {
+    width: '80%',
+    borderColor: 'black',
+    borderWidth: 1,
+    padding: 10,
+  },
+});
