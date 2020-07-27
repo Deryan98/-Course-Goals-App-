@@ -39,7 +39,9 @@ export default function App() {
         {courseGoals.map((goal) => (
           //you need stricly a unique key, but in this case we'll asume is unique,
           //that means we're going to have errors in console.
-          <Text key={goal}> {goal} </Text>
+          <View key={goal} style={styles.listItem}>
+            <Text> {goal} </Text>
+          </View>
         ))}
       </View>
     </View>
@@ -60,5 +62,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     padding: 10,
+  },
+  listItem: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: '#ccc',
+    borderColor: 'black',
+    borderWidth: 1,
   },
 });
