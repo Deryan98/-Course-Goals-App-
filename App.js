@@ -16,37 +16,28 @@ import {
 } from 'react-native';
 
 import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export default function App() {
-  const [enteredGoal, setEnteredGoal] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
 
-  const goalInputHandler = (enteredText) => {
-    setEnteredGoal(enteredText);
-  };
-
-  const addGoalHandler = () => {
+  const addGoalHandler = (goalTitle) => {
     //we need that instead of putting the raw array, it gets returned by a function
     //so that we can have the guarantee that is the current value
     setCourseGoals((currentGoals) => [
       ...courseGoals,
       /*The value assigned to key is not the best solution, because it does not returns unique values */
-      {id: Math.random().toString(), value: enteredGoal}, //Now we have a Shape to use in the FlatList
+      //Now we have a Shape to use in the FlatList
+      {
+        id: Math.random().toString(),
+        value: goalTitle /* This value needs to be forwarded*/,
+      },
     ]); //[...<array>] the spread operator works when we have this context.
   };
 
   return (
     <View style={styles.screen}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Course Goal"
-          style={styles.input}
-          onChangeText={goalInputHandler}
-          value={enteredGoal}
-        />
-        <Button title="ADD" onPress={addGoalHandler} />
-      </View>
-
+      <GoalInput onAddGoal={addGoalHandler} />
       <FlatList
         keyExtractor={(item, index) => item.id}
         //in data prop, you need an array
@@ -61,16 +52,5 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     padding: 50,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  input: {
-    width: '80%',
-    borderColor: 'black',
-    borderWidth: 1,
-    padding: 10,
   },
 });
