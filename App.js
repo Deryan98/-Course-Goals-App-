@@ -12,7 +12,7 @@ import {
   Text,
   TextInput,
   Button,
-  ScrollView,
+  FlatList,
 } from 'react-native';
 
 export default function App() {
@@ -26,7 +26,11 @@ export default function App() {
   const addGoalHandler = () => {
     //we need that instead of putting the raw array, it gets returned by a function
     //so that we can have the guarantee that is the current value
-    setCourseGoals((currentGoals) => [...courseGoals, enteredGoal]); //[...<array>] the spread operator works when we have this context.
+    setCourseGoals((currentGoals) => [
+      ...courseGoals,
+      /*The value assigned to key is not the best solution, because it does not returns unique values */
+      {id: Math.random().toString(), value: enteredGoal}, //Now we have a Shape to use in the FlatList
+    ]); //[...<array>] the spread operator works when we have this context.
   };
 
   return (
@@ -41,16 +45,17 @@ export default function App() {
         <Button title="ADD" onPress={addGoalHandler} />
       </View>
 
-      <ScrollView>
-        {/* You can now map data into an array of components */}
-        {courseGoals.map((goal) => (
-          //you need stricly a unique key, but in this case we'll asume is unique,
-          //that means we're going to have errors in console.
-          <View key={goal} style={styles.listItem}>
-            <Text> {goal} </Text>
+      <FlatList
+        keyExtractor={(item, index) => item.id}
+        //in data prop, you need an array
+        data={courseGoals}
+        //renderItem calls a function that is called for every list item, to render it.
+        renderItem={(itemData) => (
+          <View style={styles.listItem}>
+            <Text> {itemData.item.value} </Text>
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
     </View>
   );
 }
