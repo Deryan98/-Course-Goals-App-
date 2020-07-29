@@ -8,6 +8,11 @@ const GoalInput = (props) => {
     setEnteredGoal(enteredText);
   };
 
+  const addGoalHandler = () => {
+    props.onAddGoal(enteredGoal);
+    setEnteredGoal('');
+  };
+
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.inputContainer}>
@@ -17,8 +22,9 @@ const GoalInput = (props) => {
           onChangeText={goalInputHandler}
           value={enteredGoal}
         />
+        <Button title="CANCEL" color="red" onPress={props.onCancel} />
         {/* The bind method passes the argument that onAddGoal Needs to be executed */}
-        <Button title="ADD" onPress={props.onAddGoal.bind(this, enteredGoal)} />
+        <Button title="ADD" onPress={addGoalHandler} />
         {/* This is how you pass Data Between Components */}
       </View>
     </Modal>

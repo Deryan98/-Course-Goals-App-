@@ -27,6 +27,8 @@ export default function App() {
         value: goalTitle /* This value needs to be forwarded*/,
       },
     ]); //[...<array>] the spread operator works when we have this context.
+    //if you're setting two states after each other, it will batch them together and only render once
+    setIsAddMode(false);
   };
 
   const removeGoalHandler = (goalId) => {
@@ -36,10 +38,18 @@ export default function App() {
     });
   };
 
+  const cancelGoalAdditionHandler = () => {
+    setIsAddMode(false);
+  };
+
   return (
     <View style={styles.screen}>
       <Button title="Add New Goal" onPress={() => setIsAddMode(true)} />
-      <GoalInput visible={isAddMode} onAddGoal={addGoalHandler} />
+      <GoalInput
+        visible={isAddMode}
+        onAddGoal={addGoalHandler}
+        onCancel={cancelGoalAdditionHandler}
+      />
       <FlatList
         keyExtractor={(item, index) => item.id}
         //in data prop, you need an array
