@@ -35,6 +35,13 @@ export default function App() {
     ]); //[...<array>] the spread operator works when we have this context.
   };
 
+  const removeGoalHandler = (goalId) => {
+    setCourseGoals((currentGoals) => {
+      //filter returns a new array given a condition
+      return currentGoals.filter((goal) => goal.id !== goalId);
+    });
+  };
+
   return (
     <View style={styles.screen}>
       <GoalInput onAddGoal={addGoalHandler} />
@@ -45,7 +52,8 @@ export default function App() {
         //renderItem calls a function that is called for every list item, to render it.
         renderItem={(itemData) => (
           <GoalItem
-            onDelete={() => console.log("No it Doesn't  works?")}
+            id={itemData.item.id}
+            onDelete={removeGoalHandler}
             title={itemData.item.value}
           />
         )}

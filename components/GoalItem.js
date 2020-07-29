@@ -10,7 +10,11 @@ import {
 
 const GoalItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onDelete} activeOpacity={0.8}>
+    <TouchableOpacity
+      //onDelete is pointing to an existing function, the removeGoalHandler
+      onPress={props.onDelete.bind(this, props.id)}
+      //with bind we pass the argument removeGoalHandler is waiting for
+      activeOpacity={0.8}>
       <View style={styles.listItem}>
         <Text> {props.title} </Text>
       </View>
