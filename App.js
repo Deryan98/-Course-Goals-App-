@@ -43,7 +43,12 @@ export default function App() {
         //in data prop, you need an array
         data={courseGoals}
         //renderItem calls a function that is called for every list item, to render it.
-        renderItem={(itemData) => <GoalItem title={itemData.item.value} />}
+        renderItem={(itemData) => (
+          <GoalItem
+            onDelete={() => console.log("No it Doesn't  works?")}
+            title={itemData.item.value}
+          />
+        )}
       />
     </View>
   );
