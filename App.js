@@ -16,6 +16,8 @@ export default function App() {
   const [isAddMode, setIsAddMode] = useState(false);
 
   const addGoalHandler = (goalTitle) => {
+    //validating if we're not getting an empty string
+    if (goalTitle.length === 0) return;
     //we need that instead of putting the raw array, it gets returned by a function
     //so that we can have the guarantee that is the current value
     setCourseGoals((currentGoals) => [
